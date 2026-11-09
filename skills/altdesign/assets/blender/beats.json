@@ -1,0 +1,11 @@
+{
+  "fps": 24,
+  "size": [1280, 720],
+  "palette": {"ground": "#0E2219", "ink": "#F4EFE6", "pop": "#C9A96E"},
+  "beats": [
+    {"name": "Model", "seconds": 3, "camera": [9, -9, 6], "target": [0, 0, 1.2]},
+    {"name": "Load path", "seconds": 3, "camera": [5, -7, 3], "target": [0, 0, 1.6]},
+    {"name": "Checked", "seconds": 3, "camera": [1, -5, 2.4], "target": [0, 0, 2.2]},
+    {"name": "Sheet", "seconds": 3, "camera": [0, -0.01, 14], "target": [0, 0, 0]}
+  ]
+}

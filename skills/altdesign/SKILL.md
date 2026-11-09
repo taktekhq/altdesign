@@ -102,3 +102,5 @@ Run `references/audit.md`: diagnose, report, let the owner veto, then fix in its
 | Looks busy | more than two moments, accent everywhere | calm pass; pop only on the button and two marks |
 | Hero headline wraps to four lines on a phone | heading too long | eight words or fewer, clamp the size, balance |
 | Lighthouse under 90 | video or analytics on load | load video in view, smaller phone file, analytics on first interaction |
+| No horizontal scroll reported, but text is cut off on a phone | `overflow-x:clip` (used for a bleeding hero) hides overflow from `scrollWidth` | check element edges against the viewport; give grid and flex children `min-width:0` |
+| A bleeding window hides the point of the screenshot | the bleed crops the newest or key part (latest data, RTL headings on the right) | crop the source so the key part is inside the frame; bleed only empty or old parts |
