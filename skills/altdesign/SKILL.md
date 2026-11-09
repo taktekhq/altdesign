@@ -3,7 +3,7 @@ name: altdesign
 description: Designs and builds landing pages, product sites and marketing pages that look made by a senior designer, not by AI. Covers the brief, a full bleed moving scene that acts out the headline (image model, then image to video), the proof assets, a two plus one colour palette, one type family, spacing and motion systems, one or two memorable moments, a checker script and browser verification. Use when building, restyling, redesigning or reviewing any landing page, homepage, product page, marketing site, waitlist or launch page, or when someone says a page looks generic, cheap, unprofessional or AI made. Not for app dashboards built inside a design tool, logos, slide decks or print.
 license: MIT
 metadata:
-  version: 1.1.0
+  version: 1.2.0
   sources: AREZ site v33 by Majid Yassine; elayadesign/ai-design-skills and redesign-skill (MIT); the elaya.design portfolio; 17 of Elaya's X screen recordings; Diego Aranda's palette reel. See references/sources.md.
 ---
 
@@ -12,6 +12,14 @@ metadata:
 A page is remembered for **one moving picture** and trusted for **its proof**. The first screen is a single full bleed scene, in a named craft style, that acts out the headline as a pun and moves in one small way (a beam sweeps, clouds pass, a crab walks in). Below the fold the product shows itself: real screenshots, real output, cards that work. Rules for type, space and colour are the floor. The bar is the scene, the proof, the idea and one or two moments people remember.
 
 A page with perfect type and real screenshots and no scene still reads as a developer's page. That is the most common failure: see `references/scenes.md`.
+
+## First: experience or functional
+
+Decide before anything else, and say which in one line.
+- **Experience** (a brand, a studio, a shop that sells a feeling): the whole page is one world or one device you use, not a landing page. No standard header, hero copy column, card grid or text manual around it; the experience is the navigation, the proof and the call to action. A shop you walk through and pick from; a handheld whose screen is the site. Copy inside it is short and in character, never meta ("both real", "this site is a handheld"). Build devices and worlds in code so every part can be pressed. Run the scene and proof rules inside the world.
+- **Functional** (a tool, a database, a reference people use daily): plain, fast and clear. Search first, readable type, no story. The rest of this skill applies only lightly: type, spacing, states, the ship list.
+
+A clean, correct landing page for an experience brand reads as boring. That is a failure even when every check passes.
 
 ## Critical rules
 
@@ -122,6 +130,7 @@ Run `references/audit.md`: diagnose, report, let the owner veto, then fix in its
 | Symptom | Cause | Fix |
 |---|---|---|
 | Passes every check, still looks generic | no scene, no idea | step 2; the checker is a floor |
+| Owner loves the device or world but calls the page boring | standard web layout (header, hero copy, cards, manual) around the experience | make the experience the whole page; move the text version to a separate accessible route or a live region |
 | Owner says "not a fan" of a clean, correct page | the hero is screenshots or type, not a picture | one moving scene that puns on the headline; proof moves below the fold |
 | The scene looks like stock or AI slop | no pun, no named style, too many subjects | one subject doing one action, a two word style, two colours |
 | The loop distracts | camera moves, several things move, or it jumps at the seam | static camera, one moving element, first frame equals last, slower |
