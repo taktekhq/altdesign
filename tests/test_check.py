@@ -48,6 +48,21 @@ class CheckTest(unittest.TestCase):
         for needle in ["learn more", "spacing values off the scale", "default easing", "'#'"]:
             self.assertIn(needle, warns)
 
+    def test_var_font_resolved(self):
+        r = run(GOOD.replace('font-family:"Manrope",sans-serif', 'font-family:var(--f)').replace("<style>", "<style>:root{--f:Inter,sans-serif}"))
+        self.assertTrue(any("inter" in e for e in r["errors"]), r)
+
+    def test_secondary_page_needs_no_proof(self):
+        page = GOOD.replace('<img src="shot.webp" alt="The reconciliation view"><video src="film.mp4"></video>', "")
+        page = page.replace('<meta property="og:image" content="https://example.com/og.jpg">', "")
+        with tempfile.NamedTemporaryFile("w", suffix=".html", delete=False) as f:
+            f.write(page)
+        try:
+            self.assertEqual(check.check_file(f.name, secondary=True)["errors"], [])
+            self.assertTrue(check.check_file(f.name)["errors"])
+        finally:
+            os.unlink(f.name)
+
     def test_exit_codes(self):
         with tempfile.TemporaryDirectory() as d:
             g, b = os.path.join(d, "g.html"), os.path.join(d, "b.html")

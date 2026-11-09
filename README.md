@@ -13,8 +13,10 @@ skills/altdesign/
   references/portfolio.md  19 landing pages from elaya.design studied and counted, 12 rules for heroes and imagery
   references/sources.md    what each source taught and how their conflicts were resolved
   references/audit.md      redesign audit and fix order for an existing page
+  references/blender.md    hero films, scene stills and backdrops rendered in Blender from code, with timings
   assets/tokens.css        starter tokens with a dark and light band flip, text styles, buttons, floating nav, product window, grain
   assets/motion.js         reveals, the tagline word reveal, number roll, scroll scrubbed video; no dependencies
+  assets/blender/          film.py and beats.json: a headless Blender film whose beats also drive the page's chapter buttons
   scripts/check.py         mechanical checker (Python standard library), exit 1 on errors
 ```
 
@@ -48,7 +50,7 @@ python3 -m unittest discover tests
 
 ## Sources and credit
 
-- The AREZ marketing site (tryarez.com, v33, Nov 2026) by Majid Yassine: the proof, metaphor, moments and many-passes lessons.
+- The AREZ marketing site (tryarez.com, v33, Nov 2026) by Majid Yassine: the proof, metaphor, moments and many-passes lessons, and his advice to make animations in Blender.
 - [elayadesign/ai-design-skills](https://github.com/elayadesign/ai-design-skills) and [elayadesign/redesign-skill](https://github.com/elayadesign/redesign-skill) by Elaya (MIT): the visual system, intake, content realism, states, audit.
 - The portfolio on [elaya.design](https://elaya.design): the hero and imagery rules.
 - Diego Aranda's reel on palettes that look expensive: two colours that get along, one that pops, and the pop only on the button.

@@ -94,7 +94,7 @@ section{background:var(--base);color:var(--fg)}
 /* Floating nav: off the top edge, sized to content, translucent with blur. */
 .nav{position:sticky;top:12px;z-index:50;display:flex;justify-content:center;pointer-events:none;padding-inline:16px}
 .nav>div{pointer-events:auto;display:flex;align-items:center;gap:24px;height:56px;padding:0 12px 0 16px;border-radius:var(--r-xl);
-  background:color-mix(in srgb,var(--base) 74%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  background:color-mix(in srgb,var(--base) 90%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   border:1px solid var(--line);box-shadow:var(--shadow-1)}
 
 /* Product window: how screenshots are shown. */

@@ -3,6 +3,7 @@
 
     python3 check.py site/index.html [more.html ...]   # local files; linked local CSS is read too
     python3 check.py --json site/index.html            # machine readable
+    python3 check.py --secondary 404.html privacy.html # pages that are not landing pages: no proof or social image required
 
 Exit 0 when there are no errors (warnings allowed), 1 when any error is found.
 Standard library only. It reads HTML and CSS as text; it does not run the page.
@@ -14,8 +15,8 @@ import re
 import sys
 from html.parser import HTMLParser
 
-SPACING = {0, 1, 2, 4, 8, 12, 16, 24, 32, 40, 48, 64, 80, 96, 120, 160}
-TYPE_SCALE = {12, 13, 14, 16, 18, 20, 24, 30, 36, 48, 60, 72, 96, 128}
+SPACING = {0, 1, 2, 4, 8, 12, 16, 24, 32, 40, 48, 64, 80, 96, 120}
+TYPE_SCALE = {12, 14, 16, 18, 20, 24, 30, 36, 48, 60, 72, 96, 128}
 BANNED_FONTS = ["inter", "roboto", "arial", "open sans", "helvetica", "lato", "montserrat", "poppins italic"]
 FILLER = ["revolutionize", "revolutionise", "supercharge", "cutting edge", "cutting-edge", "effortless",
           "transform your workflow", "next level", "harness the power", "world class", "world-class",
@@ -81,7 +82,7 @@ def px(v):
     return float(m.group(1)) if m else None
 
 
-def check_file(path):
+def check_file(path, secondary=False):
     errors, warns, notes = [], [], []
     html = open(path, encoding="utf-8", errors="replace").read()
     p = Page()
@@ -113,6 +114,9 @@ def check_file(path):
         warns.append(f"exclamation marks in copy ({text.count('!')}x)")
 
     # Type
+    for name, val in re.findall(r"(--[\w-]+)\s*:\s*([^;}]+)", css_nc):
+        if "var(" not in val:
+            css_nc = css_nc.replace(f"var({name})", val)
     fams = set(m.strip().strip("'\"").lower() for decl in re.findall(r"font-family\s*:\s*([^;}]+)", css_nc)
                for m in decl.split(","))
     fams |= set(m.strip().strip("'\"").lower() for decl in re.findall(r"font\s*:[^;}]*?\d+px(?:/[\w.]+)?\s+([^;}]+)", css_nc)
@@ -124,10 +128,11 @@ def check_file(path):
         if b in named:
             errors.append(f"banned default font family: {b}")
     mono = {f for f in named if "mono" in f or "code" in f}
-    if len(named - mono) > 1:
+    serif_flourish = {f for f in named if "serif" in f and "sans" not in f or f in ("newsreader", "eb garamond", "georgia", "fraunces")}
+    if len(named - mono - serif_flourish) > 1 or len(serif_flourish) > 2:
         warns.append(f"more than one non mono family: {sorted(named - mono)} (one family per site, plus a mono for data)")
     if re.search(r"font-style\s*:\s*italic", css_nc):
-        warns.append("italic in use; emphasise with weight or colour")
+        warns.append("italic in use: allowed only for the hero flourish (a serif, 3 words or fewer); elsewhere use weight or colour")
     if re.search(r"font-weight\s*:\s*(800|900|black)", css_nc):
         errors.append("ultra bold weight (800/900); cap at 700")
     sizes = [px(v) for v in re.findall(r"font-size\s*:\s*([\d.]+px)", css_nc)]
@@ -171,7 +176,7 @@ def check_file(path):
         errors.append("<html> has no lang")
     if not p.title.strip():
         errors.append("no <title>")
-    for k in ("description", "og:image", "og:title"):
+    for k in ("description",) if secondary else ("description", "og:image", "og:title"):
         if k not in p.meta:
             errors.append(f"missing meta {k}")
     if "canonical" not in p.meta:
@@ -200,13 +205,15 @@ def check_file(path):
     raster = [i for i in p.imgs if re.search(r"\.(png|jpe?g|webp|avif|gif)(\?|$)", i.get("src", "") or i.get("data-src", ""), re.I)]
     media = len(raster) + p.tags.get("video", 0)
     sections = max(p.tags.get("section", 0), 1)
-    if media == 0:
+    if secondary:
+        pass
+    elif media == 0:
         errors.append("no product proof: 0 raster images and 0 videos (screenshots, real output, a film)")
     elif media * 2 < sections:
         warns.append(f"thin proof: {media} images/videos for {sections} sections; aim for one per two sections or better")
-    if not p.tags.get("video"):
+    if not p.tags.get("video") and not secondary:
         warns.append("no video; a short film of the product doing its one job is the strongest hero")
-    if "ld+json" not in html:
+    if "ld+json" not in html and not secondary:
         warns.append("no JSON-LD structured data")
     notes.append(f"proof: {len(raster)} raster images, {p.tags.get('video', 0)} videos, {sections} sections")
     notes.append(f"families: {sorted(named) or 'none found'}; sizes used: {sorted({s for s in sizes if s})}")
@@ -219,7 +226,7 @@ def main(argv):
     if not files:
         print(__doc__)
         return 2
-    results = [check_file(f) for f in files]
+    results = [check_file(f, "--secondary" in argv) for f in files]
     if as_json:
         print(json.dumps(results, indent=1))
     else:

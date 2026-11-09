@@ -41,7 +41,7 @@ Named text styles (define once as classes, use the names):
 | label | 12/16 mono caps | 500 | tags, table heads |
 | button-md / button-sm | 16/24, 14/20 | 600 | buttons |
 
-Sizes come from 12, 14, 16, 18, 20, 24, 30, 36, 48, 60, 72, 96. Snap anything else to the step below.
+Sizes come from 12, 14, 16, 18, 20, 24, 30, 36, 48, 60, 72, 96 (128 for a single giant number). Snap anything else to the step below.
 
 ## Space and grid
 
@@ -64,7 +64,7 @@ One rule: buttons and inputs 6 px, cards and windows 8 to 12 px, big media 12 to
 
 ## Navigation
 
-- Floats 12 px off the top, centred, sized to its content, translucent ground with 16 px blur, hairline border, soft shadow.
+- Floats 12 px off the top, centred, sized to its content, ground at about 90% opacity with 16 px blur (lower fails contrast over light bands), hairline border, soft shadow.
 - Logo, 4 to 6 links, one small primary button. The current page or section is marked.
 - Under 560 px: a menu button whose two lines turn into an X on the base curve; a full height panel with 24 px blur; links rise 24 px and fade in, 60 ms apart, whole sequence under 400 ms.
 
@@ -87,6 +87,9 @@ One rule: buttons and inputs 6 px, cards and windows 8 to 12 px, big media 12 to
 - Icons from one set with one stroke weight (Phosphor, Solar, Iconamoon), inline SVG. No rocket for launch, no shield for security.
 
 ## Components and states
+
+Inactive tabs, steps and filters dim with the `--fg-3` colour, never with opacity (opacity fails contrast). The tagline section's 30% words are the one exception, because they reach full colour as they are read and show at full colour under reduced motion.
+
 
 Every interactive element ships with hover, active, focus (2 px ring at 3:1), disabled; inputs add error and filled; data views add loading (skeleton shaped like the layout), empty (a composed first step) and error (inline, says what failed and what to do). No link points at `#`.
 

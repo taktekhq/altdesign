@@ -37,7 +37,9 @@ Check: you can write "the first thing they see is ___" and "they leave believing
 List every asset the page needs: hero film or image, 3 to 6 product screenshots cropped to the part that matters (2x), real output (documents, reports, sheets), a sample file to download, the maker's or team's photo, logos and numbers you are allowed to show. Get them now:
 - From a running product: screenshots and a 10 to 20 s screen recording of its one job (Playwright or the OS recorder), cropped and encoded to WebP and H.264 MP4 with a poster.
 - No product to capture: a rendered scene that states the metaphor (see `references/portfolio.md`, rules 1 to 3), with the UI composed over it from real looking data.
-- Anything you cannot get: a marked placeholder and a line in the hand off list. Never ship a drawn stand in as if it were the product.
+- A film of the product's job that a screen recording cannot show (a building, a process, a physical result): render it in Blender from code, following `references/blender.md` and `assets/blender/film.py`.
+- A product that exists only as a design (pre launch, a demo): build its real interface in HTML with real looking data, then capture it as screenshots and a recording like a running product. That counts as proof because it is the interface people will get. A drawn stand in is something else: a decorative diagram, icon art or abstract shapes presented as if they were the product. Never ship one.
+- Anything you cannot get: a marked placeholder and a line in the hand off list.
 
 Check: every section in the outline has a named asset beside its claim.
 
@@ -47,7 +49,7 @@ Write three directions that differ in kind (not in shade), each in one line: the
 - **Metaphor**: how sections are tagged (sheet numbers, chapter marks, timestamps), the background texture, the 404 line.
 - **Palette**: ground, ink, pop. Photographs desaturated so the pop owns colour. Read `references/system.md`, Colour.
 - **Type**: the family, the mono, and whether the hero gets the serif flourish.
-- **Moments**: one on a short page, two on a long page (8 sections or more), never three. Pick from `references/system.md`, Motion.
+- **Moments**: one on a short page, two on a long page (8 sections or more), never three. Pick from `references/system.md`, Motion. The hero film is the hero, not a moment; moments live below it.
 
 Check: someone could tell this page apart from a competitor's with the logo covered.
 
@@ -57,7 +59,7 @@ Copy `assets/tokens.css` and set only its first block (ground, raised, pop, thre
 
 ### 5. Build, section by section
 
-Order: hero, proof row, product (how it works), the tagline section, output or gallery, scope or comparison, the second moment, about the maker, pricing with risk reversal, FAQ (six to twelve real questions), closing CTA, footer. Drop what the product does not need; keep the order of argument. Build one section, look at it at 390 and 1440 px, then the next. Never rebuild the whole page per change.
+Order: hero, proof row, product (how it works), the tagline section, output or gallery, scope or comparison, the second moment, about the maker (only when a named maker or team is part of the trust; otherwise skip it), pricing with risk reversal, FAQ (six to twelve real questions), closing CTA, footer. Drop what the product does not need; keep the order of argument. Build one section, look at it at 390 and 1440 px, then the next. Never rebuild the whole page per change.
 
 Hero recipe: announcement or eyebrow only if it carries news; heading of two lines, eight words or fewer, 48 to 64 px, broken where the thought breaks, max 680 px; one line of how and for whom; one filled button with a verb and what they get, plus a text link; one quiet proof line (rating, count, logos in one colour); the visual from step 2, with product UI as floating cards over a scene or a window that bleeds off the edge.
 
@@ -69,10 +71,10 @@ Add the floor (reveals, tagline, button feedback) with `assets/motion.js`. Add t
 
 ### 7. Verify
 
-1. `python3 scripts/check.py path/to/index.html` (and every other page). Zero errors. Read every warning and fix it or write why it stays.
+1. `python3 scripts/check.py path/to/index.html`, and `python3 scripts/check.py --secondary 404.html privacy.html` for pages that are not landing pages. Zero errors. Read every warning and fix it or write why it stays.
 2. A real browser at 390, 768 and 1440 px: no horizontal scroll, the primary action visible in the first screen on a phone, nothing clipped, no orphans. Look at every screenshot yourself.
 3. axe: zero violations, also with reduced motion.
-4. Lighthouse mobile: performance 90 or more, accessibility, best practices and SEO 100. Video loads only in view, phones get a smaller film, fonts and libraries self hosted.
+4. Lighthouse mobile: performance 90 or more, accessibility, best practices and SEO 100. Video loads only in view, phones get a smaller film, fonts and libraries self hosted (Google Fonts links are fine for a prototype, never for production).
 5. Every link and form works; forms validate; the 404 renders.
 
 ### 8. Critique and passes
@@ -89,8 +91,10 @@ Run `references/audit.md`: diagnose, report, let the owner veto, then fix in its
 - `references/portfolio.md`: 19 works from elaya.design, counted patterns, 12 rules for heroes and imagery. Read in step 3.
 - `references/sources.md`: what each source taught, the AREZ case, the palette reel, and how conflicts between sources were resolved.
 - `references/audit.md`: the redesign audit and fix order.
+- `references/blender.md`: films, scene stills and backdrops rendered in Blender from code; timings and commands. Read in step 2 when the hero needs a film.
 - `assets/tokens.css`: starter tokens with the dark and light band flip, text styles, buttons, nav, window, grain.
 - `assets/motion.js`: reveals, tagline words, number roll, scroll scrubbed video. No dependencies.
+- `assets/blender/film.py` and `beats.json`: a scripted headless Blender film with beats that also feed the page's chapter buttons.
 - `scripts/check.py`: the mechanical checker (standard library Python).
 
 ## Common problems
@@ -104,3 +108,6 @@ Run `references/audit.md`: diagnose, report, let the owner veto, then fix in its
 | Lighthouse under 90 | video or analytics on load | load video in view, smaller phone file, analytics on first interaction |
 | No horizontal scroll reported, but text is cut off on a phone | `overflow-x:clip` (used for a bleeding hero) hides overflow from `scrollWidth` | check element edges against the viewport; give grid and flex children `min-width:0` |
 | A bleeding window hides the point of the screenshot | the bleed crops the newest or key part (latest data, RTL headings on the right) | crop the source so the key part is inside the frame; bleed only empty or old parts |
+| The hero film looks empty in screenshots and on slow phones | the poster or first frame is the start of the run | the poster is the payoff frame; captions in HTML |
+| A full page screenshot shows a big empty band | a pinned or scroll scrubbed section captured without scrolling | scroll through before capturing, or judge pinned sections in viewport shots |
+| Inactive steps or tabs fail contrast | dimmed with opacity | dim with the `--fg-3` colour step, never opacity, and check 4.5:1 |
