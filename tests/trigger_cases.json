@@ -1,0 +1,23 @@
+{"should_trigger": [
+ "Build a landing page for our new invoicing app",
+ "Can you design a homepage for my bakery's online shop?",
+ "This product page looks generic and AI made, fix it",
+ "Redesign tryarez.com so it looks more professional",
+ "Make a waitlist page for our AI note taker launch",
+ "I need a marketing site for a B2B security startup",
+ "Our landing page looks cheap. What should we change?",
+ "Create a launch page for the Mac version of our app with pricing and FAQ",
+ "Restyle the hero section of index.html so it converts better",
+ "Review this landing page design and tell me what to improve",
+ "Build a one page site for a law firm in Beirut",
+ "Turn this README into a product landing page"
+],
+"should_not": [
+ "Fix the failing Go test in the cited repo",
+ "Make a 10 slide pitch deck for investors",
+ "Design a logo for my coffee brand",
+ "Write the SQL migration for the users table",
+ "Summarize this PDF contract",
+ "Set up the Cloudflare DNS record for tryarez.com",
+ "Draw a cartoon character for our mascot"
+]}

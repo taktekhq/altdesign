@@ -1,0 +1,118 @@
+/* altdesign starter tokens. Copy into the page, then set the brand values in the first block only.
+   Every other value on the page resolves through these names. */
+:root{
+  color-scheme:dark;
+  /* Brand: set these five. Neutrals stay in one family (all warm or all cool). */
+  --base:#0E2219;      /* page ground (dark band) */
+  --raised:#13302A;    /* cards, windows, the band that steps up */
+  --raised-2:#1B3D2F;  /* hover, selected */
+  --accent:#C9A96E;    /* ONE accent: actions, the active state, the one highlight. Saturation under 80% */
+  --accent-hi:#D8BC86; /* accent hover */
+  /* Text, three steps only. Check 4.5:1 for --fg-2 on --base and on --raised. */
+  --fg:#F4EFE6; --fg-2:#B9C4BC; --fg-3:#7F9488;
+  /* Lines are light, never boxes: 1px at low alpha. */
+  --line:rgba(244,239,230,.10); --line-strong:rgba(201,169,110,.28);
+  --on-accent:#0B1A14;
+
+  /* Type: one family, one mono for data and labels. */
+  --f-sans:"Manrope", system-ui, sans-serif;
+  --f-mono:"Geist Mono", ui-monospace, Consolas, monospace;
+
+  /* Spacing scale. Nothing between, nothing outside (120 and 160 only for section padding). */
+  --s-25:2px;--s-50:4px;--s-75:8px;--s-100:12px;--s-200:16px;--s-300:24px;--s-400:32px;
+  --s-500:40px;--s-600:48px;--s-700:64px;--s-800:80px;--s-900:96px;--s-sec:120px;
+
+  /* Radius: one rule. Inner radius = outer radius minus the gap when the gap is under 32px. */
+  --r-xs:2px;--r-sm:4px;--r:6px;--r-md:8px;--r-lg:12px;--r-xl:16px;--r-pill:999px;
+
+  /* Depth: shadows tinted toward the ground, one light source from above. */
+  --shadow-1:0 12px 40px rgba(0,0,0,.35);
+  --shadow-2:0 30px 80px rgba(0,0,0,.45);
+
+  /* Motion: one curve. 500ms for movement, 300ms for colour and opacity, never under 200ms. */
+  --ease:cubic-bezier(.22,1,.36,1); --t-move:.5s; --t-fade:.3s;
+
+  --maxw:1200px; --measure:680px;
+}
+
+/* Light band: the same components on paper. Put class="light" on a section; every token flips,
+   markup stays the same. Alternate bands on purpose (dark for the product, light for what it produces);
+   never one stray band. */
+.light{
+  color-scheme:light;
+  --base:#F4EFE6; --raised:#ECE5D6; --raised-2:#E2DACA;
+  --accent:#7E6534; --accent-hi:#9C7F45; /* accent deepened for text contrast on light */
+  --fg:#0F2A20; --fg-2:#3A4F44; --fg-3:#52615A;
+  --line:rgba(11,26,20,.14); --line-strong:rgba(126,101,52,.4);
+  --shadow-1:0 12px 32px rgba(26,29,27,.12); --shadow-2:0 24px 60px rgba(26,29,27,.16);
+}
+.light .btn-primary{background:#C9A96E;color:#0B1A14} /* the filled action keeps the brand accent */
+
+/* Named text styles. Every text element uses one of these. */
+.heading-1{font:600 clamp(40px,5.6vw,60px)/1 var(--f-sans);letter-spacing:-.025em}
+.heading-2{font:600 clamp(30px,4vw,48px)/1 var(--f-sans);letter-spacing:-.02em}
+.heading-3{font:600 36px/40px var(--f-sans);letter-spacing:-.015em}
+.heading-4{font:600 30px/36px var(--f-sans);letter-spacing:-.01em}
+.title-1{font:500 20px/28px var(--f-sans)}
+.title-3{font:500 16px/24px var(--f-sans)}
+.lede{font:400 18px/28px var(--f-sans);color:var(--fg-2)}
+.body-3{font:400 16px/24px var(--f-sans)}
+.body-6{font:400 14px/20px var(--f-sans)}
+.caption-5{font:400 12px/16px var(--f-sans)}
+.label{font:500 12px/16px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--fg-3)}
+.button-md{font:600 16px/24px var(--f-sans)}
+.button-sm{font:600 14px/20px var(--f-sans)}
+
+/* Base */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:var(--s-800)}
+body{margin:0;background:var(--base);color:var(--fg);font:400 16px/24px var(--f-sans);-webkit-font-smoothing:antialiased;text-wrap:pretty}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+img,video{display:block;max-width:100%;height:auto}
+section{background:var(--base);color:var(--fg)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:var(--r-xs)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:max(24px,env(safe-area-inset-left,0px))}
+@media (max-width:600px){.wrap{padding-inline:16px}}
+.sec{padding-block:var(--s-sec)}
+@media (max-width:700px){.sec{padding-block:var(--s-700)}}
+.skip{position:absolute;left:-999px;top:8px;z-index:100;background:var(--accent);color:var(--on-accent);padding:8px 12px}
+.skip:focus{left:16px}
+
+/* Hero heading: the one gradient, on text only, left to right, checked for contrast at its light end. */
+.hero-title{background:linear-gradient(90deg,var(--fg),var(--fg-2));-webkit-background-clip:text;background-clip:text;color:transparent;max-width:var(--measure)}
+
+/* Buttons: one filled action per screen; the second action is a text link. */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 12px;border-radius:var(--r);
+  font:600 16px/24px var(--f-sans);text-decoration:none;border:1px solid transparent;cursor:pointer;white-space:nowrap;
+  transition:background var(--t-fade) var(--ease),color var(--t-fade) var(--ease),transform var(--t-move) var(--ease)}
+.btn:hover{transform:translateY(-1px)} .btn:active{transform:scale(.98)}
+.btn-primary{background:var(--accent);color:var(--on-accent)} .btn-primary:hover{background:var(--accent-hi)}
+.btn-lg{min-height:52px;padding-inline:24px}
+.link{color:var(--fg-2);text-decoration:none;font-weight:600} .link:hover{color:var(--fg)}
+
+/* Floating nav: off the top edge, sized to content, translucent with blur. */
+.nav{position:sticky;top:12px;z-index:50;display:flex;justify-content:center;pointer-events:none;padding-inline:16px}
+.nav>div{pointer-events:auto;display:flex;align-items:center;gap:24px;height:56px;padding:0 12px 0 16px;border-radius:var(--r-xl);
+  background:color-mix(in srgb,var(--base) 74%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--line);box-shadow:var(--shadow-1)}
+
+/* Product window: how screenshots are shown. */
+.window{border:1px solid var(--line-strong);border-radius:var(--r-md);overflow:hidden;background:var(--raised);box-shadow:var(--shadow-2)}
+.window>.bar{display:flex;align-items:center;gap:4px;height:28px;padding:0 12px;border-bottom:1px solid var(--line);font:400 12px var(--f-mono);color:var(--fg-3)}
+
+/* Texture instead of gradients: faint grain on the hero and closing bands. */
+.grain{position:relative;isolation:isolate}
+.grain::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.06;mix-blend-mode:screen;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* Motion hooks used by motion.js. Content is visible without JavaScript: the hidden state is only set once JS runs. */
+.js [data-reveal]{opacity:0;transform:translateY(32px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.js [data-reveal].in{opacity:1;transform:none}
+[data-tagline] .w{transition:opacity var(--t-move) var(--ease)}
+.js [data-tagline] .w{opacity:.3} .js [data-tagline] .w.on{opacity:1}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition-duration:.01ms!important;animation:none!important}
+  .js [data-reveal]{opacity:1;transform:none} .js [data-tagline] .w{opacity:1}
+}
