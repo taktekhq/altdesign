@@ -213,6 +213,12 @@ def check_file(path, secondary=False):
         warns.append(f"thin proof: {media} images/videos for {sections} sections; aim for one per two sections or better")
     if not p.tags.get("video") and not secondary:
         warns.append("no video; a short film of the product doing its one job is the strongest hero")
+    # Conversion: at least one call to action must lead somewhere real
+    hrefs = re.findall(r'<a\b[^>]*class="[^"]*\b(?:btn|button|cta)[^"]*"[^>]*href="([^"]*)"|<a\b[^>]*href="([^"]*)"[^>]*class="[^"]*\b(?:btn|button|cta)[^"]*"', html)
+    targets = [a or b for a, b in hrefs]
+    real = [h for h in targets if h and not h.startswith("#")]
+    if not secondary and targets and not real and "<form" not in html and "<dialog" not in html and "showModal" not in html:
+        errors.append("calls to action are dead ends: every button links to an anchor and the page has no form, dialog or real URL")
     if "ld+json" not in html and not secondary:
         warns.append("no JSON-LD structured data")
     notes.append(f"proof: {len(raster)} raster images, {p.tags.get('video', 0)} videos, {sections} sections")

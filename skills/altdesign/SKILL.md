@@ -63,6 +63,12 @@ Order: hero, proof row, product (how it works), the tagline section, output or g
 
 Hero recipe: announcement or eyebrow only if it carries news; heading of two lines, eight words or fewer, 48 to 64 px, broken where the thought breaks, max 680 px; one line of how and for whom; one filled button with a verb and what they get, plus a text link; one quiet proof line (rating, count, logos in one colour); the visual from step 2, with product UI as floating cards over a scene or a window that bleeds off the edge.
 
+Phone hero: the visual must still say something at 390 px. Swap a wide product window for a cropped detail with text of 12 px or more; never shrink a full screen to unreadable.
+
+Every call to action reaches something real: a form with validation and a success state, a booking dialog, a checkout or a download. A button that only jumps to another anchor is a dead end. Keep the primary action reachable at every width (a small nav button or a sticky bar on phones).
+
+Habits that read as stock AI, avoid them by default: an all caps eyebrow over every heading (use a tag only where it carries the metaphor, in sentence case); an arrow icon on every button (only on a link that leaves the page); a fade in on every block (reveal section heads and the moments, not every card); a serif italic word in every heading (the hero only).
+
 Tagline section: one large statement of the core promise (two lines or more), its words brightening one by one from 30% as it scrolls into view (`data-tagline` in `assets/motion.js`).
 
 ### 6. Motion pass, then calm pass
@@ -72,7 +78,7 @@ Add the floor (reveals, tagline, button feedback) with `assets/motion.js`. Add t
 ### 7. Verify
 
 1. `python3 scripts/check.py path/to/index.html`, and `python3 scripts/check.py --secondary 404.html privacy.html` for pages that are not landing pages. Zero errors. Read every warning and fix it or write why it stays.
-2. A real browser at 390, 768 and 1440 px: no horizontal scroll, the primary action visible in the first screen on a phone, nothing clipped, no orphans. Look at every screenshot yourself.
+2. A real browser at 390, 768 and 1440 px, scrolled through so reveals and pinned sections run, and once more as a plain capture without scrolling (crawlers, link previews and print see that one, so nothing important may stay invisible): no horizontal scroll, the primary action visible in the first screen on a phone, nothing clipped, no orphans. Look at every screenshot yourself.
 3. axe: zero violations, also with reduced motion.
 4. Lighthouse mobile: performance 90 or more, accessibility, best practices and SEO 100. Video loads only in view, phones get a smaller film, fonts and libraries self hosted (Google Fonts links are fine for a prototype, never for production).
 5. Every link and form works; forms validate; the 404 renders.
@@ -111,3 +117,4 @@ Run `references/audit.md`: diagnose, report, let the owner veto, then fix in its
 | The hero film looks empty in screenshots and on slow phones | the poster or first frame is the start of the run | the poster is the payoff frame; captions in HTML |
 | A full page screenshot shows a big empty band | a pinned or scroll scrubbed section captured without scrolling | scroll through before capturing, or judge pinned sections in viewport shots |
 | Inactive steps or tabs fail contrast | dimmed with opacity | dim with the `--fg-3` colour step, never opacity, and check 4.5:1 |
+| A counter or mockup shows half finished numbers in a capture | the animation was caught mid run | render the final state by default and animate from it only in view; keep every number consistent across the page |
