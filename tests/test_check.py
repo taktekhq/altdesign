@@ -15,7 +15,7 @@ h1{font:600 60px/1 "Manrope",sans-serif;text-wrap:balance}
 .btn{transition:transform .5s cubic-bezier(.22,1,.36,1)}:focus-visible{outline:2px solid}
 @media (prefers-reduced-motion:reduce){*{transition:none}}</style></head>
 <body><a class="skip" href="#main">Skip to content</a><main id="main"><section><h1>Close the books in two days.</h1>
-<img src="shot.webp" alt="The reconciliation view"><video src="film.mp4"></video>
+<img src="shot.webp" alt="The reconciliation view"><video src="film.mp4" autoplay muted loop playsinline poster="film.webp"></video>
 <a class="btn" href="/trial">Start 14 day trial</a></section></main></body></html>"""
 
 BAD = """<html><head><style>body{font-family:Inter,Roboto;font-weight:900;padding:13px;
@@ -53,7 +53,7 @@ class CheckTest(unittest.TestCase):
         self.assertTrue(any("inter" in e for e in r["errors"]), r)
 
     def test_secondary_page_needs_no_proof(self):
-        page = GOOD.replace('<img src="shot.webp" alt="The reconciliation view"><video src="film.mp4"></video>', "")
+        page = GOOD.replace('<img src="shot.webp" alt="The reconciliation view"><video src="film.mp4" autoplay muted loop playsinline poster="film.webp"></video>', "")
         page = page.replace('<meta property="og:image" content="https://example.com/og.jpg">', "")
         with tempfile.NamedTemporaryFile("w", suffix=".html", delete=False) as f:
             f.write(page)
@@ -62,6 +62,15 @@ class CheckTest(unittest.TestCase):
             self.assertTrue(check.check_file(f.name)["errors"])
         finally:
             os.unlink(f.name)
+
+    def test_hero_scene(self):
+        self.assertFalse([w for w in run(GOOD)["warnings"] if "hero" in w])
+        no_film = GOOD.replace('<video src="film.mp4" autoplay muted loop playsinline poster="film.webp"></video>', "")
+        self.assertTrue(any("no moving scene" in w for w in run(no_film)["warnings"]))
+        bare = GOOD.replace(' autoplay muted loop playsinline poster="film.webp"', "")
+        self.assertTrue(any("missing autoplay" in w for w in run(bare)["warnings"]))
+        below = GOOD.replace('<video src="film.mp4" autoplay muted loop playsinline poster="film.webp"></video>', "").replace("</main>", '<section><video src="f.mp4"></video></section></main>')
+        self.assertTrue(any("no moving scene" in w for w in run(below)["warnings"]))
 
     def test_exit_codes(self):
         with tempfile.TemporaryDirectory() as d:

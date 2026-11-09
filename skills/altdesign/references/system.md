@@ -73,14 +73,14 @@ One rule: buttons and inputs 6 px, cards and windows 8 to 12 px, big media 12 to
 - One curve: `cubic-bezier(.22,1,.36,1)`. 500 ms for movement, 300 ms for colour and opacity, never under 200 ms. No `ease`, `linear` or `ease-in-out` on UI.
 - Animate only `transform` and `opacity`.
 - Floor (every page): sections rise 32 px and fade in once over 600 to 800 ms (IntersectionObserver); the tagline section's words brighten one by one from 30%; buttons lift 1 px on hover and press to 0.98.
-- Moments (one on a short page, two on a long one, never three), each in its own section with a job: a scroll scrubbed product film, a pinned step list with a changing frame, a counter or odometer on a real number, sheets or screenshots that "develop" in, an interactive slider or calculator, a chat or terminal that types a real exchange.
+- The hero scene loop is the hero, not a moment (see `scenes.md`). Moments (one on a short page, two on a long one, never three), each in its own section below it with a job: a scroll scrubbed product film, a pinned step list with a changing frame, a counter or odometer on a real number, sheets or screenshots that "develop" in, an interactive slider or calculator, a chat or terminal that types a real exchange.
 - Heavier libraries (GSAP + ScrollTrigger, Lenis) only for pinned or scrubbed moments, self hosted, loaded deferred.
 - Under `prefers-reduced-motion`: no movement, final states shown. Without JavaScript: all content visible.
 - Then a **calm pass**: halve anything that loops, cut grain and glow, remove any effect that does not explain or reward.
 
 ## Imagery
 
-- Order of preference: real product UI and output; a film or recording of the product doing its job; real photographs of the customer's world (desaturated); a rendered or illustrated scene that carries the product's metaphor; never stock "team at laptop" photos.
+- The hero is one moving scene (see `scenes.md`): an image model still in a named style, animated into a 6 to 10 s loop, that puns on the headline. The sections below use, in order: real product UI and output; a film or recording of the product doing its job; small working UI cards; real photographs of the customer's world (desaturated). Never stock "team at laptop" photos, never a screenshot collage as the hero.
 - A scene image (a landscape, an object, a creature) works when it states the metaphor of the promise in one look and the product UI sits over it as cards.
 - Every hero visual answers: what does the visitor see happening?
 - Video: muted, playsinline, poster image, loads when in view, a smaller file for phones. Images: WebP or AVIF, `srcset` with 1x and 2x, width and height set.

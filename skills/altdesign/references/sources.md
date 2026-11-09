@@ -1,6 +1,6 @@
 # Sources and what each one taught
 
-altdesign merges four sources. Each rule in SKILL.md traces to one of them. Where they disagree, the resolution is written here.
+altdesign merges five sources. Each rule in SKILL.md traces to one of them. Where they disagree, the resolution is written here.
 
 ## 1. AREZ marketing site v33 (tryarez.com), by Majid Yassine, Nov 2026
 
@@ -48,6 +48,10 @@ What the three example heroes also show:
 - Product UI floats over the photo as cards with real looking data (11.5 hrs saved, 2:14 AM timestamps, $186.40 split three ways at $46.60, 2,139 MW live load).
 - An announcement bar on top, a proof line beside the CTA (avatars and 4,000+ founders, 4.9 from 80K reviews), a logo row of mixed wordmark styles, a stats row (4.1 GW, 38%, 11).
 
+## 5. Elaya's screen recordings on X (17 posts, Oct to Nov 2026)
+
+Short recordings of landing pages she made with an image model, an image to video model (Higgsfield, Kling 3, Julius) and Claude or Cursor with her skill; the most liked (11,207 likes) is a 14 page montage. Studied frame by frame in `scenes.md`. What they added to the stills in `portfolio.md`: the hero picture is a loop where one thing moves and that thing is the pun; the art and the UI layer cross (clouds pass over the numbers, a dashboard rises out of the scene, a figure stays fixed while the page scrolls over it); the copy loads after the art; footers and 404s are scenes too; feature cards are small working UIs. Added after our own screenshot led demos passed every check and were rejected by their owner.
+
 ## Conflicts and how altdesign resolves them
 
 | Topic | elaya | Majid / reel | altdesign |
@@ -59,4 +63,5 @@ What the three example heroes also show:
 | One side borders | never on cards | Majid: dividers between trio items | Never on cards. Row and column dividers are fine. |
 | Spacing values | only the 13 tokens | Majid: 14 px, 18 px, 22 px in places | Tokens for layout (padding, gaps, margins). Optical one off values inside small components are allowed and noted. |
 | Accent | one, under 80% saturation | reel: a pop that clashes on purpose | One accent. It may be loud (the reel's pop) if it sits only on actions and one or two marks, and the other two colours are calm. |
+| Hero visual | the portfolio and recordings: one moving scene that puns on the headline | Majid: a rendered film of the product's one job | The scene first. A product film is a scene only if it is one picture with one action; otherwise it goes in a section below. |
 | Motion | reveals and the tagline | Majid: a full motion layer | Reveals and the tagline are the floor. Add one or two moments with a job (taste-skill rule), then a calm pass. |

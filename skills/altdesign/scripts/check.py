@@ -32,9 +32,23 @@ class Page(HTMLParser):
         self.title, self.lang = "", None
         self._skip = 0
         self._in = []
+        # Hero tracking: media inside the top level section that holds the h1
+        self.sec_depth, self.sec_n, self.cur_sec = 0, 0, None
+        self.sec_media, self.h1_sec, self.videos = {}, None, []
 
     def handle_starttag(self, tag, a):
         a = dict(a)
+        if tag in ("section", "header"):
+            self.sec_depth += 1
+            if self.sec_depth == 1:
+                self.sec_n += 1
+                self.cur_sec = self.sec_n
+        if tag == "h1" and self.h1_sec is None:
+            self.h1_sec = self.cur_sec
+        if tag in ("img", "video") and self.cur_sec is not None:
+            self.sec_media.setdefault(self.cur_sec, []).append(tag)
+        if tag == "video":
+            self.videos.append((self.cur_sec, a))
         self.tags[tag] = self.tags.get(tag, 0) + 1
         self._in.append(tag)
         if tag == "html":
@@ -63,6 +77,10 @@ class Page(HTMLParser):
             self.styles.append("x{" + a["style"] + "}")
 
     def handle_endtag(self, tag):
+        if tag in ("section", "header") and self.sec_depth:
+            self.sec_depth -= 1
+            if self.sec_depth == 0:
+                self.cur_sec = None
         if tag in ("script", "style", "noscript", "svg") and self._skip:
             self._skip -= 1
         if self._in:
@@ -211,8 +229,16 @@ def check_file(path, secondary=False):
         errors.append("no product proof: 0 raster images and 0 videos (screenshots, real output, a film)")
     elif media * 2 < sections:
         warns.append(f"thin proof: {media} images/videos for {sections} sections; aim for one per two sections or better")
-    if not p.tags.get("video") and not secondary:
-        warns.append("no video; a short film of the product doing its one job is the strongest hero")
+    # Scene: the first screen is one moving picture (references/scenes.md)
+    if not secondary:
+        hero = p.sec_media.get(p.h1_sec, []) if p.h1_sec is not None else []
+        if "video" not in hero:
+            warns.append("hero has no moving scene: no <video> in the section with the h1; the first screen should be one looping picture that puns on the headline")
+        for sec, v in p.videos:
+            if sec == p.h1_sec:
+                miss = [k for k in ("autoplay", "muted", "loop", "playsinline", "poster") if k not in v]
+                if miss:
+                    warns.append(f"hero video is missing {', '.join(miss)}; a scene loop needs autoplay muted loop playsinline and a poster")
     # Conversion: at least one call to action must lead somewhere real
     hrefs = re.findall(r'<a\b[^>]*class="[^"]*\b(?:btn|button|cta)[^"]*"[^>]*href="([^"]*)"|<a\b[^>]*href="([^"]*)"[^>]*class="[^"]*\b(?:btn|button|cta)[^"]*"', html)
     targets = [a or b for a, b in hrefs]

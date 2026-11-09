@@ -1,6 +1,6 @@
 # The elaya.design portfolio, studied
 
-19 works shown on https://elaya.design (Nov 2026): 11 still images and 8 animations, 35 frames viewed, colours sampled from pixels. The site links to none of them; brand names are as they appear in the shots. Use this file when choosing a hero, an image strategy or a motion moment.
+19 works shown on https://elaya.design (Nov 2026): 11 still images and 8 animations, 35 frames viewed, colours sampled from pixels. The site links to none of them; brand names are as they appear in the shots. Use this file when choosing a hero, an image strategy or a motion moment. For how these heroes move and how they are made, read `scenes.md`.
 
 ## Index
 
