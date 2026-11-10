@@ -4,6 +4,7 @@
     python3 check.py site/index.html [more.html ...]   # local files; linked local CSS is read too
     python3 check.py --json site/index.html            # machine readable
     python3 check.py --secondary 404.html privacy.html # pages that are not landing pages: no proof or social image required
+    python3 check.py --experience index.html           # an experience page (one world or device built in code): proof lives inside it, no hero video
 
 Exit 0 when there are no errors (warnings allowed), 1 when any error is found.
 Standard library only. It reads HTML and CSS as text; it does not run the page.
@@ -100,7 +101,7 @@ def px(v):
     return float(m.group(1)) if m else None
 
 
-def check_file(path, secondary=False):
+def check_file(path, secondary=False, experience=False):
     errors, warns, notes = [], [], []
     html = open(path, encoding="utf-8", errors="replace").read()
     p = Page()
@@ -225,12 +226,17 @@ def check_file(path, secondary=False):
     sections = max(p.tags.get("section", 0), 1)
     if secondary:
         pass
+    elif experience:
+        if not re.search(r"<canvas|<svg|<button", html, re.I):
+            errors.append("experience page with nothing to use: no canvas, svg or button; the world or device must be built in code")
+        if 'aria-live' not in html:
+            warns.append("experience page without an aria-live region; screen readers cannot follow what the world shows")
     elif media == 0:
         errors.append("no product proof: 0 raster images and 0 videos (screenshots, real output, a film)")
     elif media * 2 < sections:
         warns.append(f"thin proof: {media} images/videos for {sections} sections; aim for one per two sections or better")
     # Scene: the first screen is one moving picture (references/scenes.md)
-    if not secondary:
+    if not secondary and not experience:
         hero = p.sec_media.get(p.h1_sec, []) if p.h1_sec is not None else []
         if "video" not in hero:
             warns.append("hero has no moving scene: no <video> in the section with the h1; the first screen should be one looping picture that puns on the headline")
@@ -258,7 +264,7 @@ def main(argv):
     if not files:
         print(__doc__)
         return 2
-    results = [check_file(f, "--secondary" in argv) for f in files]
+    results = [check_file(f, "--secondary" in argv, "--experience" in argv) for f in files]
     if as_json:
         print(json.dumps(results, indent=1))
     else:

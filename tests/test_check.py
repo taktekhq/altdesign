@@ -72,6 +72,18 @@ class CheckTest(unittest.TestCase):
         below = GOOD.replace('<video src="film.mp4" autoplay muted loop playsinline poster="film.webp"></video>', "").replace("</main>", '<section><video src="f.mp4"></video></section></main>')
         self.assertTrue(any("no moving scene" in w for w in run(below)["warnings"]))
 
+    def test_experience_page(self):
+        page = GOOD.replace('<img src="shot.webp" alt="The reconciliation view"><video src="film.mp4" autoplay muted loop playsinline poster="film.webp"></video>', '<canvas id="lcd"></canvas><p aria-live="polite">Press Start</p>')
+        with tempfile.NamedTemporaryFile("w", suffix=".html", delete=False) as f:
+            f.write(page)
+        try:
+            r = check.check_file(f.name, experience=True)
+            self.assertEqual(r["errors"], [], r)
+            self.assertFalse([w for w in r["warnings"] if "hero" in w or "aria-live" in w])
+            self.assertTrue(check.check_file(f.name)["errors"])
+        finally:
+            os.unlink(f.name)
+
     def test_exit_codes(self):
         with tempfile.TemporaryDirectory() as d:
             g, b = os.path.join(d, "g.html"), os.path.join(d, "b.html")
